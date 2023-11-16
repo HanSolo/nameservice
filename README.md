@@ -3,13 +3,13 @@
 ### Use for showing possibilities to slim down Java docker images:
 
 Build a docker image with a JDK and an Ubuntu base image:
-```docker build . -t hansolo/nameservice1:latest -f Dockerfile_Ubuntu_JDK```
+```docker build . -t nameservice1:latest -f Dockerfile_Ubuntu_JDK```
 
 Build a docker image with a JRE and an Ubuntu base image:
-```docker build . -t hansolo/nameservice2:latest -f Dockerfile_Ubuntu_JRE```
+```docker build . -t nameservice2:latest -f Dockerfile_Ubuntu_JRE```
 
 Build a docker image with a JLink created JRE and an Alpine Linux image:
-```docker build . -t hansolo/nameservice1:latest -f Dockerfile_Alpine_JLink```
+```docker build . -t nameservice3:latest -f Dockerfile_Alpine_JLink```
 
 
 
@@ -72,11 +72,11 @@ a JDK that supports CRaC. You can find builds here [Azul](https://www.azul.com/d
 
 
 #### Run docker image without checkpoint:
-```docker run -it --privileged --rm --name nameservice hansolo/nameservice java -XX:CRaCCheckpointTo=/opt/crac-files -jar /opt/app/nameservice-17.0.0.jar```
+```docker run -it --privileged --rm --name nameservice nameservice java -XX:CRaCCheckpointTo=/opt/crac-files -jar /opt/app/nameservice-17.0.0.jar```
 
 
 #### Run docker image with checkpoint:
-```docker run -it --privileged --rm --name $1 hansolo/nameservice:checkpoint java -XX:CRaCRestoreFrom=/opt/crac-files```
+```docker run -it --privileged --rm --name $1 nameservice:checkpoint java -XX:CRaCRestoreFrom=/opt/crac-files```
 
 
 #### 1. Start the application in a docker container
