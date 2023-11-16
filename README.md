@@ -67,13 +67,12 @@ a JDK that supports CRaC. You can find builds here [Azul](https://www.azul.com/d
 ```docker build -t nameservice .```
 
 
-#### Commit image to dockerhub:
+#### Commit image to dockerhub (optional):
 ```docker commit nameservice```
 
 
 #### Run docker image without checkpoint:
 ```docker run -it --privileged --rm --name nameservice nameservice java -XX:CRaCCheckpointTo=/opt/crac-files -jar /opt/app/nameservice-17.0.0.jar```
-
 
 #### Run docker image with checkpoint:
 ```docker run -it --privileged --rm --name $1 nameservice:checkpoint java -XX:CRaCRestoreFrom=/opt/crac-files```
@@ -82,17 +81,13 @@ a JDK that supports CRaC. You can find builds here [Azul](https://www.azul.com/d
 #### 1. Start the application in a docker container
 1. Open a shell window
 2. Run ``` docker run -it --privileged --rm --name nameservice nameservice ```
-3. In the docker container run</br>
-```
-cd /opt/app
-java -XX:CRaCCheckpointTo=/opt/crac-files -jar nameservice-17.0.0.jar
-```
+3. In the docker container run ```java -XX:CRaCCheckpointTo=/opt/crac-files -jar /opt/app/nameservice-17.0.0.jar```
 
 </br>
 
 #### 2. Start a 2nd shell window and create the checkpoint
 1. Open a second shell window
-2. Run ``` docker exec -it -u root nameservice /bin/bash ```
+2. Run ```docker exec -it -u root nameservice /bin/bash```
 3. Execute ``` top ``` command and note the PID of the running java process
 4. Take the PID and run ``` jcmd PID JDK.checkpoint```
 5. In the first shell window the application should have created the checkpoint
