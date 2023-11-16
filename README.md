@@ -91,8 +91,8 @@ a JDK that supports CRaC. You can find builds here [Azul](https://www.azul.com/d
 
 #### 3. Commit the current state of the docker container
 1. Now get the CONTAINER_ID from shell window 1 by execute ``` docker ps -a ``` in shell window 2
-2. Exit the docker container in shell window 1 by executing ``` exit ```
-3. Run ``` docker commit CONTAINER_ID nameservice:checkpoint ``` in shell window 2
+2. Run ``` docker commit CONTAINER_ID nameservice:checkpoint ``` in shell window 2
+3. Exit the docker container in shell window 1 by executing ``` exit ```
 
 </br>
 
