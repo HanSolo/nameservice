@@ -64,18 +64,11 @@ a JDK that supports CRaC. You can find builds here [Azul](https://www.azul.com/d
 
 
 #### Build docker image:
-```docker build -t nameservice .```
+```docker build -t nameservice -f Dockerfile_CRaC .```
 
 
 #### Commit image to dockerhub (optional):
 ```docker commit nameservice```
-
-
-#### Run docker image without checkpoint:
-```docker run -it --privileged --rm --name nameservice nameservice java -XX:CRaCCheckpointTo=/opt/crac-files -jar /opt/app/nameservice-17.0.0.jar```
-
-#### Run docker image with checkpoint:
-```docker run -it --privileged --rm --name $1 nameservice:checkpoint java -XX:CRaCRestoreFrom=/opt/crac-files```
 
 
 #### 1. Start the application in a docker container
@@ -104,8 +97,11 @@ a JDK that supports CRaC. You can find builds here [Azul](https://www.azul.com/d
 </br>
 
 #### 4. Run the docker container from the saved state incl. the checkpoint
-Now you can start the docker container from the checkpoint by executing
-``` docker run -it --privileged --rm --name nameservice nameservice:checkpoint java -XX:CRaCRestoreFrom=/opt/crac-files ```
+Run docker image without checkpoint:
+```docker run -it --privileged --rm --name nameservice nameservice java -jar /opt/app/nameservice-17.0.0.jar```
+
+Run docker image with checkpoint:
+```docker run -it --privileged --rm --name nameservice nameservice:checkpoint java -XX:CRaCRestoreFrom=/opt/crac-files```
 
 </br>
 
