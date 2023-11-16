@@ -74,7 +74,7 @@ public class Api implements Resource, ErrorController {
     String error(HttpServletRequest request) {
         return "<h1>Error occurred</h1>";
     }
-    
+
 
     // #################### CRaC specific methods #############################
     @Override public void beforeCheckpoint(final Context<? extends Resource> context) throws Exception {

@@ -3,6 +3,7 @@ package eu.hansolo.nameservice.util;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
+import eu.hansolo.nameservice.NameserviceApplication;
 import eu.hansolo.nameservice.data.Gender;
 import eu.hansolo.nameservice.data.Name;
 import eu.hansolo.nameservice.data.NameDto;
@@ -39,7 +40,7 @@ public class Helper {
 
     public static List<Name> loadNames() {
         final List<Name> namesFound = new ArrayList<>();
-        try(JsonReader jsonReader = new JsonReader(new InputStreamReader(Helper.class.getResourceAsStream(Constants.DATA_FILENAME), StandardCharsets.UTF_8))) {
+        try(JsonReader jsonReader = new JsonReader(new InputStreamReader(NameserviceApplication.class.getResourceAsStream(Constants.DATA_FILENAME), StandardCharsets.UTF_8))) {
             final Gson gson = new GsonBuilder().create();
             jsonReader.beginArray();
             while (jsonReader.hasNext()){
