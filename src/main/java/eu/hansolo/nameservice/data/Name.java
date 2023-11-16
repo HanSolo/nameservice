@@ -1,4 +1,4 @@
-package eu.hansolo.nameservice;
+package eu.hansolo.nameservice.data;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;

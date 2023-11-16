@@ -1,4 +1,4 @@
-package eu.hansolo.nameservice;
+package eu.hansolo.nameservice.data;
 
 public enum Gender {
     MALE, FEMALE, ALL;

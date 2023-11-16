@@ -1,4 +1,4 @@
-package eu.hansolo.nameservice;
+package eu.hansolo.nameservice.util;
 
 import java.util.Random;
 

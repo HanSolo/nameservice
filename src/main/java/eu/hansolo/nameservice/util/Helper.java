@@ -1,8 +1,11 @@
-package eu.hansolo.nameservice;
+package eu.hansolo.nameservice.util;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
+import eu.hansolo.nameservice.data.Gender;
+import eu.hansolo.nameservice.data.Name;
+import eu.hansolo.nameservice.data.NameDto;
 
 import java.io.IOException;
 import java.io.InputStreamReader;

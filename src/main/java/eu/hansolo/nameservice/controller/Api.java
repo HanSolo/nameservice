@@ -1,5 +1,9 @@
-package eu.hansolo.nameservice;
+package eu.hansolo.nameservice.controller;
 
+import eu.hansolo.nameservice.util.Constants;
+import eu.hansolo.nameservice.data.Gender;
+import eu.hansolo.nameservice.util.Helper;
+import eu.hansolo.nameservice.data.Name;
 import org.crac.Context;
 import org.crac.Resource;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.logging.Logger;
+
 
 @RestController
 @RequestMapping("/names")
@@ -35,8 +40,8 @@ public class Api implements Resource {
         // Load names if allNames.isEmpty()
         if (this.allNames.isEmpty()) { this.allNames.addAll(Helper.loadNames()); }
 
-        final Gender     _gender = (null == gender || gender.isEmpty()) ? Constants.RND.nextBoolean() ? Gender.FEMALE : Gender.MALE : Gender.fromText(gender);
-        final int        _amount = (null == amount || amount < 1 || amount > 100) ? 5 : amount;
+        final Gender _gender = (null == gender || gender.isEmpty()) ? Constants.RND.nextBoolean() ? Gender.FEMALE : Gender.MALE : Gender.fromText(gender);
+        final int    _amount = (null == amount || amount < 1 || amount > 100) ? 5 : amount;
         final List<Name> names   = Helper.getRandomNames(this.allNames, _amount, _gender);
 
         // Sort names
