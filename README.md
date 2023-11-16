@@ -75,7 +75,7 @@ e.g.
 
 #### 1. Start the application in a docker container
 1. Open a shell window
-2. Run ``` docker run -it --privileged --rm --name nameservice nameservice ```
+2. Run ``` docker run -it --privileged --rm -p 8080:8080 --name nameservice nameservice ```
 3. In the docker container run ```java -XX:CRaCCheckpointTo=/opt/crac-files -jar /opt/app/nameservice-17.0.0.jar```
 
 </br>
@@ -100,10 +100,10 @@ e.g.
 
 #### 4. Run the docker container from the saved state incl. the checkpoint
 Run docker image without checkpoint:
-```docker run -it --privileged --rm -p 8080:8080 --expose=8080 --name nameservice nameservice:checkpoint java -jar /opt/app/nameservice-17.0.0.jar```
+```docker run -it --privileged --rm -p 8080:8080 --name nameservice nameservice:checkpoint java -jar /opt/app/nameservice-17.0.0.jar```
 
 Run docker image with checkpoint:
-```docker run -it --privileged --rm -p 8080:8080 --expose=8080 --name nameservice nameservice:checkpoint java -XX:CRaCRestoreFrom=/opt/crac-files```
+```docker run -it --privileged --rm -p 8080:8080 --name nameservice nameservice:checkpoint java -XX:CRaCRestoreFrom=/opt/crac-files```
 
 </br>
 
@@ -114,13 +114,13 @@ Run docker image with checkpoint:
 ```
 #!/bin/bash
 
-echo "docker run -it --privileged --rm -p 8080:8080 --expose=8080 --name $1 nameservice:checkpoint java -XX:CRaCRestoreFrom=/opt/crac-files"
+echo "docker run -it --privileged --rm -p 8080:8080 --name $1 nameservice:checkpoint java -XX:CRaCRestoreFrom=/opt/crac-files"
 
-docker run -it --privileged --rm -p 8080:8080 --expose=8080 --name $1 nameservice:checkpoint java -XX:CRaCRestoreFrom=/opt/crac-files
+docker run -it --privileged --rm -p 8080:8080 --name $1 nameservice:checkpoint java -XX:CRaCRestoreFrom=/opt/crac-files
 ```
 4. Make the script executable by executing ```chmod +x restore_nameservice.sh```
 5. Now you can start the docker container multiple times executing ```restore_nameservice.sh NAME_OF_CONTAINER```
 
 If you would like to start the original container without the checkpoint you can still
 do that by executing the following command
-```docker run -it --privileged --rm -p 8080:8080 --expose=8080 --name nameservice nameservice:checkpoint java -jar /opt/app/nameservice-17.0.0.jar```
+```docker run -it --privileged --rm -p 8080:8080 --name nameservice nameservice:checkpoint java -jar /opt/app/nameservice-17.0.0.jar```
