@@ -4,11 +4,14 @@ import eu.hansolo.nameservice.util.Constants;
 import eu.hansolo.nameservice.data.Gender;
 import eu.hansolo.nameservice.util.Helper;
 import eu.hansolo.nameservice.data.Name;
+import jakarta.servlet.http.HttpServletRequest;
 import org.crac.Context;
 import org.crac.Resource;
+import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
@@ -19,7 +22,7 @@ import java.util.logging.Logger;
 
 @RestController
 @RequestMapping("/names")
-public class Api implements Resource {
+public class Api implements Resource, ErrorController {
     protected final Logger     logger   = Logger.getLogger(Api.class.getName());
     private   final List<Name> allNames = new ArrayList<>();
 
@@ -65,6 +68,13 @@ public class Api implements Resource {
         return msgBuilder.toString();
     }
 
+
+    @RequestMapping("/error")
+    @ResponseBody
+    String error(HttpServletRequest request) {
+        return "<h1>Error occurred</h1>";
+    }
+    
 
     // #################### CRaC specific methods #############################
     @Override public void beforeCheckpoint(final Context<? extends Resource> context) throws Exception {

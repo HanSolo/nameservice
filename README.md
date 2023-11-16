@@ -68,7 +68,9 @@ a JDK that supports CRaC. You can find builds here [Azul](https://www.azul.com/d
 
 
 #### Commit image to dockerhub (optional):
-```docker commit nameservice```
+e.g.
+```docker commit container_id hansolo/nameservice:latest```
+```docker push hansolo/nameservice:latest```
 
 
 #### 1. Start the application in a docker container
