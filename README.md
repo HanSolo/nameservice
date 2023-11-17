@@ -42,7 +42,7 @@ we do not even have to use the service but at the time of a checkpoint all names
 be loaded in the allNames list. That means after a restore all names already have been
 loaded and we can directly start at full speed.
 
-ATTENTION: THIS IS A DEMO!!! I know that you usually don't do this but it helps to understand.
+<b>ATTENTION: THIS IS A DEMO!!! I know that you usually don't do this but it helps to understand.</b>
 
 
 The nameservice needs to load around 258 000 names from a json file the first time the service is called. 
@@ -72,6 +72,8 @@ e.g.
 ```docker commit container_id hansolo/nameservice:latest```
 ```docker push hansolo/nameservice:latest```
 
+
+### Use CRaC with a checkpoint in the docker container
 
 #### 1. Start the application in a docker container
 1. Open a shell window
@@ -124,3 +126,41 @@ docker run -it --privileged --rm -p 8080:8080 --name $1 nameservice:checkpoint j
 If you would like to start the original container without the checkpoint you can still
 do that by executing the following command
 ```docker run -it --privileged --rm -p 8080:8080 --name nameservice nameservice:checkpoint java -jar /opt/app/nameservice-17.0.0.jar```
+
+
+### Use CRaC with a checkpoint in an external volume
+
+#### 1. Create and use a docker volume
+1. Create a folder on the machine you run the docker image on e.g. ```mkdir /home/hansolo/docker_volume```
+2. Create a docker volume:
+```docker volume create --driver local --opt type=none --opt device=/home/hansolo/docker_volume --opt o=bind myvolume```
+3. Run the docker using the volume:
+```docker run -it --privileged --rm -v myvolume:/checkpoints -p 8080:8080 --name nameservice nameservice```
+4. In the docker container run: 
+```java -XX:CRaCCheckpointTo=/checkpoints -jar /opt/app/nameservice-17.0.0.jar```
+
+
+#### 2. Start a 2nd shell window and create the checkpoint
+1. Open a second shell window
+2. Run ```docker exec -it -u root nameservice /bin/bash```
+3. Execute ``` top ``` command and note the PID of the running java process
+4. Take the PID and run ``` jcmd PID JDK.checkpoint```
+5. In the first shell window the application should have created the checkpoint
+6. Check the folder /checkpoints for the checkpoint files being present
+7. In second shell window run ``` exit ``` to get back to your machine
+   
+
+#### 3. Exit 1st shell window
+1. In first shell window run ```exit```to get back to your machine
+2. The checkpoint should now be in the folder you created e.g. /home/hansolo/docker_volume
+
+
+#### 4. Create and use a docker volume
+1. Create folder on the target machine e.g.: ```mkdir /home/hansolo/docker_volume```
+2. Copy the files from the former created checkpoint to this folder
+3. Create a docker volume on the target machine:
+ ```docker volume create --driver local --opt type=none --opt device=/home/hansolo/docker_volume --opt o=bind myvolume```
+
+
+#### 5. Run the docker image with the checkpoint on the external volume
+1. Run the docker image ```docker run -it --privileged --rm -v myvolume:/checkpoints -p 8080:8080 --expose=8080 --name nameservice nameservice:checkpoint java -XX:CRaCRestoreFrom=/checkpoints```  

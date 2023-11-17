@@ -52,18 +52,13 @@ public class Api implements Resource, ErrorController {
 
         // Create Json output
         final StringBuilder msgBuilder = new StringBuilder();
-        msgBuilder.append("{")
-                  .append("  \"names\":[");
+        msgBuilder.append("{").append("\"names\":[");
         names.forEach(name -> msgBuilder.append("{")
                                         .append("\"").append("name").append("\":\"").append(name.getName()).append("\",")
                                         .append("\"").append("gender").append("\":\"").append(name.getGender().name().toLowerCase()).append("\"")
                                         .append("},"));
         msgBuilder.setLength(msgBuilder.length() - 2);
-        msgBuilder.append("\n],")
-                  .append("\"response_time\":\"")
-                  .append((System.nanoTime() - start) / 1_000_000)
-                  .append(" ms\"")
-                  .append("}");
+        msgBuilder.append("],").append("\"response_time\":\"").append((System.nanoTime() - start) / 1_000_000).append(" ms\"").append("}");
 
         return msgBuilder.toString();
     }
