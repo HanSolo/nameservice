@@ -24,7 +24,7 @@ http://localhost:8080/names/?gender=boy&amount=5
 
 The expected result for this call will look like this:
 ```json
-{ "names":[{"name":"Deandre","gender":"male"},{"name":"Jesse","gender":"male"},{"name":"Kermit","gender":"male"},{"name":"Salvador","gender":"male"},{"name":"Santos","gender":"male" ],"response_time":"16 ms"}
+{ "names":[{"name":"Abe","gender":"male"},{"name":"Baxter","gender":"male"},{"name":"Dylan","gender":"male"},{"name":"Lafayette","gender":"male"},{"name":"Marlin","gender":"male" ],"response_time":"701 ms"}
 
 ```
 
@@ -156,11 +156,11 @@ do that by executing the following command
 
 
 #### 4. Create and use a docker volume
-1. Create folder on the target machine e.g.: ```mkdir /home/hansolo/docker_volume```
+1. Create folder on the target machine e.g.: ```mkdir /Users/hansolo/docker_volume```
 2. Copy the files from the former created checkpoint to this folder
 3. Create a docker volume on the target machine:
- ```docker volume create --driver local --opt type=none --opt device=/home/hansolo/docker_volume --opt o=bind myvolume```
+ ```docker volume create --driver local --opt type=none --opt device=/Users/hansolo/docker_volume --opt o=bind myvolume```
 
 
 #### 5. Run the docker image with the checkpoint on the external volume
-1. Run the docker image ```docker run -it --privileged --rm -v myvolume:/checkpoints -p 8080:8080 --expose=8080 --name nameservice nameservice:checkpoint java -XX:CRaCRestoreFrom=/checkpoints```  
+1. Run the docker image ```docker run -it --privileged --rm -v myvolume:/checkpoints -p 8080:8080 --name nameservice nameservice:checkpoint java -XX:CRaCRestoreFrom=/checkpoints```  
