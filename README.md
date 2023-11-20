@@ -85,11 +85,12 @@ e.g.
 #### 2. Start a 2nd shell window and create the checkpoint
 1. Open a second shell window
 2. Run ```docker exec -it -u root nameservice /bin/bash```
-3. Execute ``` top ``` command and note the PID of the running java process
-4. Take the PID and run ``` jcmd PID JDK.checkpoint```
-5. In the first shell window the application should have created the checkpoint
-6. Check the folder /opt/crac-files for the checkpoint files being present
-7. In second shell window run ``` exit ``` to get back to your machine
+3. Enable checkpoint compression ```export CRAC_CRIU_OPTS=--compress```
+4. Execute ``` top ``` command and note the PID of the running java process
+5. Take the PID and run ``` jcmd PID JDK.checkpoint```
+6. In the first shell window the application should have created the checkpoint
+7. Check the folder /opt/crac-files for the checkpoint files being present
+8. In second shell window run ``` exit ``` to get back to your machine
 
 </br>
 
@@ -143,11 +144,12 @@ do that by executing the following command
 #### 2. Start a 2nd shell window and create the checkpoint
 1. Open a second shell window
 2. Run ```docker exec -it -u root nameservice /bin/bash```
-3. Execute ``` top ``` command and note the PID of the running java process
-4. Take the PID and run ``` jcmd PID JDK.checkpoint```
-5. In the first shell window the application should have created the checkpoint
-6. Check the folder /checkpoints for the checkpoint files being present
-7. In second shell window run ``` exit ``` to get back to your machine
+3. Enable checkpoint compression ```export CRAC_CRIU_OPTS=--compress```
+4. Execute ``` top ``` command and note the PID of the running java process
+5. Take the PID and run ``` jcmd PID JDK.checkpoint```
+6. In the first shell window the application should have created the checkpoint
+7. Check the folder /checkpoints for the checkpoint files being present
+8. In second shell window run ``` exit ``` to get back to your machine
    
 
 #### 3. Exit 1st shell window
