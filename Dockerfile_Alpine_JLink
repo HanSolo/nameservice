@@ -2,7 +2,13 @@ FROM alpine:latest AS build
 ENV JAVA_HOME /opt/jdk/zulu17.46.19-ca-jdk17.0.9-linux_musl_x64
 ENV PATH $JAVA_HOME/bin:$PATH
 
+
+# X64
 ADD https://cdn.azul.com/zulu/bin/zulu17.46.19-ca-jdk17.0.9-linux_musl_x64.tar.gz /opt/jdk/
+
+# AARCH64
+#ADD https://cdn.azul.com/zulu/bin/zulu17.46.19-ca-jdk17.0.9-linux_musl_aarch64.tar.gz /opt/jdk/
+
 RUN tar -zxvf /opt/jdk/zulu17.46.19-ca-jdk17.0.9-linux_musl_x64.tar.gz -C /opt/jdk/
 
 RUN ["jlink", "--compress=2", \
