@@ -6,6 +6,7 @@ import eu.hansolo.nameservice.util.Helper;
 import eu.hansolo.nameservice.data.Name;
 import jakarta.servlet.http.HttpServletRequest;
 import org.crac.Context;
+import org.crac.Core;
 import org.crac.Resource;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,7 +32,7 @@ public class Api implements Resource, ErrorController {
      * Example response: { "names":[{"name":"Deandre","gender":"male"},{"name":"Jesse","gender":"male"},{"name":"Kermit","gender":"male"},{"name":"Salvador","gender":"male"},{"name":"Santos","gender":"male" ],"response_time":"16 ms"}
      */
     public Api() {
-
+        Core.getGlobalContext().register(Api.this);
     }
 
 
