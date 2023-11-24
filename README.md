@@ -234,3 +234,18 @@ has not yet been published. In this case you don't need to implement the Resourc
 #### 5. Run the docker image with the checkpoint on the external volume
 1. Run the docker image ```docker run -it --privileged --rm -v myvolume:/checkpoints -p 8080:8080 --name nameservice nameservice:checkpoint java -XX:CRaCRestoreFrom=/checkpoints```  
 
+<br><br>
+
+## Use CRaC with SpringBoot 3.2 automatic checkpoint at startup locally (need to run on Linux + JDK with CRaC)
+1. Start the application normally
+- ```bash start.sh```
+
+<br>
+
+2. Start the application and automatically create a snapshot
+- ```bash start_autocrac.sh```
+
+<br>
+
+3. Restore the application from the stored checkpoint
+- ```bash restore_autocrac.sh```
