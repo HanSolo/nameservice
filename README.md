@@ -48,13 +48,34 @@ loaded and we can directly start at full speed.
 The nameservice needs to load around 258 000 names from a json file the first time the service is called. 
 The service provides methods to create a number of random names for boys, girls or both. 
 
+<br><br>
+
+#### Setup the environment
+1. Download a JDK with support for CRaC e.g.
+- [Azul Zulu 21.0.1 + CRaC X64](https://cdn.azul.com/zulu/bin/zulu21.30.19-ca-crac-jdk21.0.1-linux_x64.tar.gz)
+- [Azul Zulu 21.0.1 + CRaC AARCH64](https://cdn.azul.com/zulu/bin/zulu21.30.19-ca-crac-jdk21.0.1-linux_aarch64.tar.gz)
+
+2. Unpack the tar.gz file and copy the JDK in a folder
+- ```sudo tar zxvf zulu21.30.19-ca-crac-jdk21.0.1-linux_x64.tar.gz```
+- ```mv zulu21.30.19-ca-crac-jdk21.0.1-linux_x64 zulu-21.jdk```
+- ```sudo mv zulu-21.jdk /usr/lib/jvm```
+
+3. Set the $JAVA_HOME environment variable to the JDK with CRaC support e.g.
+- ```export JAVA_HOME=/usr/lib/jvm/zulu-21.jdk```
+
+4. Make sure you have the permissions to run CRIU
+- ```sudo chown root:root $JAVA_HOME/lib/criu```
+- ```sudo chmod u+s $JAVA_HOME/lib/criu```
+
+<br><br>
+
 #### Build the jar file on the target platform:
 To create the jar file you need to build it on the target platform (Linux x64 or aarch64) using
 a JDK that supports CRaC. You can find builds here [Azul](https://www.azul.com/downloads/?version=java-17-lts&os=linux&package=jdk-crac#zulu).
 1. make sure you set JAVA_HOME to the JVM with CRaC support
 2. go the project folder
 3. run ```gradlew clean build```
-4. Now you should find the the jar at ```build/libs/nameservice-17.0.0.jar```
+4. Now you should find the the jar at ```build/libs/nameservice-21.0.0.jar```
 5. This jar file will later be used to run on the docker container
 6. Make sure to select the correct JDK in the docker file (x64 or aarch64)
 
@@ -72,15 +93,16 @@ e.g.
 ```docker commit container_id hansolo/nameservice:latest```
 ```docker push hansolo/nameservice:latest```
 
+<br><br>
 
 ### Use CRaC with a checkpoint in the docker container
 
 #### 1. Start the application in a docker container
 1. Open a shell window
 2. Run ``` docker run -it --privileged --rm -p 8080:8080 --name nameservice nameservice ```
-3. In the docker container run ```java -XX:CRaCCheckpointTo=/opt/crac-files -jar /opt/app/nameservice-17.0.0.jar```
+3. In the docker container run ```java -XX:CRaCCheckpointTo=/opt/crac-files -jar /opt/app/nameservice-21.0.0.jar```
 
-</br>
+<br>
 
 #### 2. Start a 2nd shell window and create the checkpoint
 1. Open a second shell window
@@ -92,23 +114,23 @@ e.g.
 7. Check the folder /opt/crac-files for the checkpoint files being present
 8. In second shell window run ``` exit ``` to get back to your machine
 
-</br>
+<br>
 
 #### 3. Commit the current state of the docker container
 1. Now get the CONTAINER_ID from shell window 1 by execute ``` docker ps -a ``` in shell window 2
 2. Run ``` docker commit CONTAINER_ID nameservice:checkpoint ``` in shell window 2
 3. Exit the docker container in shell window 1 by executing ``` exit ```
 
-</br>
+<br>
 
 #### 4. Run the docker container from the saved state incl. the checkpoint
 Run docker image without checkpoint:
-```docker run -it --privileged --rm -p 8080:8080 --name nameservice nameservice:checkpoint java -jar /opt/app/nameservice-17.0.0.jar```
+```docker run -it --privileged --rm -p 8080:8080 --name nameservice nameservice:checkpoint java -jar /opt/app/nameservice-21.0.0.jar```
 
 Run docker image with checkpoint:
 ```docker run -it --privileged --rm -p 8080:8080 --name nameservice nameservice:checkpoint java -XX:CRaCRestoreFrom=/opt/crac-files```
 
-</br>
+<br>
 
 #### 5. Create a shell script to restore multiple times
 1. Open a shell window
@@ -126,8 +148,10 @@ docker run -it --privileged --rm -p 8080:8080 --name $1 nameservice:checkpoint j
 
 If you would like to start the original container without the checkpoint you can still
 do that by executing the following command
-```docker run -it --privileged --rm -p 8080:8080 --name nameservice nameservice:checkpoint java -jar /opt/app/nameservice-17.0.0.jar```
+```docker run -it --privileged --rm -p 8080:8080 --name nameservice nameservice:checkpoint java -jar /opt/app/nameservice-21.0.0.jar```
 
+
+<br><br>
 
 ## Use CRaC with a checkpoint in an external volume
 
@@ -140,8 +164,9 @@ do that by executing the following command
 4. In the docker container enable checkpoint compression
 ```export CRAC_CRIU_OPTS=--compress```
 5. In the docker container run 
-```java -XX:CRaCCheckpointTo=/checkpoints -jar /opt/app/nameservice-17.0.0.jar```
+```java -XX:CRaCCheckpointTo=/checkpoints -jar /opt/app/nameservice-21.0.0.jar```
 
+<br>
 
 #### 2. Start a 2nd shell window and create the checkpoint
 1. Open a second shell window
@@ -151,12 +176,14 @@ do that by executing the following command
 6. In the first shell window the application should have created the checkpoint
 7. Check the folder /checkpoints for the checkpoint files being present
 8. In second shell window run ``` exit ``` to get back to your machine
-   
+
+<br>  
 
 #### 3. Exit 1st shell window
 1. In first shell window run ```exit```to get back to your machine
 2. The checkpoint should now be in the folder you created e.g. /home/hansolo/docker_volume
 
+<br>
 
 #### 4. Create and use a docker volume
 1. Create folder on the target machine e.g.: ```mkdir /Users/hansolo/docker_volume```
@@ -164,6 +191,46 @@ do that by executing the following command
 3. Create a docker volume on the target machine:
  ```docker volume create --driver local --opt type=none --opt device=/Users/hansolo/docker_volume --opt o=bind myvolume```
 
+<br>
 
 #### 5. Run the docker image with the checkpoint on the external volume
 1. Run the docker image ```docker run -it --privileged --rm -v myvolume:/checkpoints -p 8080:8080 --name nameservice nameservice:checkpoint java -XX:CRaCRestoreFrom=/checkpoints```  
+
+
+<br><br>
+
+## Use CRaC with SpringBoot 3.2 automatic checkpoint at startup in an external volume
+The checkpoint is created automatically at startup during the LifecycleProcessor.onRefresh phase. After this phase has completed, all non-lazy initialized 
+singletons have been instantiated, and InitializingBean#afterPropertiesSet callbacks have been invoked but the lifecycle has not started, and the ContextRefreshEvent
+has not yet been published. In this case you don't need to implement the Resource interface because this will only affect the startup of the SpringBoot framework.
+
+#### 1. Create and use a docker volume
+1. Create a folder on the machine you run the docker image on e.g. ```mkdir /home/hansolo/docker_volume```
+2. Create a docker volume:
+   ```docker volume create --driver local --opt type=none --opt device=/home/hansolo/docker_volume --opt o=bind myvolume```
+3. Run the docker using the volume:
+   ```docker run -it --privileged --rm -v myvolume:/checkpoints -p 8080:8080 --name nameservice nameservice```
+4. In the docker container enable checkpoint compression
+   ```export CRAC_CRIU_OPTS=--compress```
+5. In the docker container run
+   ```java -Dspring.context.checkpoint=onRefresh -XX:CRaCCheckpointTo=/checkpoints -jar /opt/app/nameservice-21.0.0.jar```
+
+<br>
+
+#### 2. Exit 1st shell window
+1. In first shell window run ```exit```to get back to your machine
+2. The checkpoint should now be in the folder you created e.g. /home/hansolo/docker_volume
+
+<br>
+
+#### 3. Create and use a docker volume
+1. Create folder on the target machine e.g.: ```mkdir /Users/hansolo/docker_volume```
+2. Copy the files from the former created checkpoint to this folder
+3. Create a docker volume on the target machine:
+   ```docker volume create --driver local --opt type=none --opt device=/Users/hansolo/docker_volume --opt o=bind myvolume```
+
+<br>
+
+#### 5. Run the docker image with the checkpoint on the external volume
+1. Run the docker image ```docker run -it --privileged --rm -v myvolume:/checkpoints -p 8080:8080 --name nameservice nameservice:checkpoint java -XX:CRaCRestoreFrom=/checkpoints```  
+
