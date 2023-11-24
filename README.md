@@ -243,9 +243,9 @@ has not yet been published. In this case you don't need to implement the Resourc
 <br>
 
 2. Start the application and automatically create a snapshot
-- ```bash start_autocrac.sh```
+- ```bash start-autocrac.sh```
 
 <br>
 
 3. Restore the application from the stored checkpoint
-- ```bash restore_autocrac.sh```
+- ```bash restore-autocrac.sh```
