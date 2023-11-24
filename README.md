@@ -1,6 +1,6 @@
-## NameService
+# NameService
 
-### Use for showing possibilities to slim down Java docker images:
+## Use for showing possibilities to slim down Java docker images:
 
 Build a docker image with a JDK and an Ubuntu base image:
 ```docker build . -t nameservice1:latest -f Dockerfile_Ubuntu_JDK```
@@ -11,9 +11,9 @@ Build a docker image with a JRE and an Ubuntu base image:
 Build a docker image with a JLink created JRE and an Alpine Linux image:
 ```docker build . -t nameservice3:latest -f Dockerfile_Alpine_JLink```
 
+<br><br>
 
-
-### Use for showing CRaC (Coordinated Restore at Checkpoint)
+## Use for showing CRaC (Coordinated Restore at Checkpoint)
 #### Description
 The nameservice is using SpringBoot to offer a REST endpoint that returns a given number
 of random names for either girls, boys or both.
@@ -129,7 +129,7 @@ do that by executing the following command
 ```docker run -it --privileged --rm -p 8080:8080 --name nameservice nameservice:checkpoint java -jar /opt/app/nameservice-17.0.0.jar```
 
 
-### Use CRaC with a checkpoint in an external volume
+## Use CRaC with a checkpoint in an external volume
 
 #### 1. Create and use a docker volume
 1. Create a folder on the machine you run the docker image on e.g. ```mkdir /home/hansolo/docker_volume```
