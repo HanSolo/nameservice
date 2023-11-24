@@ -1,3 +1,5 @@
+#!/bin/bash
+
 JAVA_VERSION=17
 MAIN_CLASS="eu.hansolo.springboot.SpringbootApplication"
 MAIN_JAR="nameservice-17.0.0.jar"
