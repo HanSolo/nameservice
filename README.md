@@ -137,14 +137,15 @@ do that by executing the following command
 ```docker volume create --driver local --opt type=none --opt device=/home/hansolo/docker_volume --opt o=bind myvolume```
 3. Run the docker using the volume:
 ```docker run -it --privileged --rm -v myvolume:/checkpoints -p 8080:8080 --name nameservice nameservice```
-4. In the docker container run: 
+4. In the docker container enable checkpoint compression
+```export CRAC_CRIU_OPTS=--compress```
+5. In the docker container run 
 ```java -XX:CRaCCheckpointTo=/checkpoints -jar /opt/app/nameservice-17.0.0.jar```
 
 
 #### 2. Start a 2nd shell window and create the checkpoint
 1. Open a second shell window
 2. Run ```docker exec -it -u root nameservice /bin/bash```
-3. Enable checkpoint compression ```export CRAC_CRIU_OPTS=--compress```
 4. Execute ``` top ``` command and note the PID of the running java process
 5. Take the PID and run ``` jcmd PID JDK.checkpoint```
 6. In the first shell window the application should have created the checkpoint
